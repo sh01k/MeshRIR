@@ -10,4 +10,4 @@ MeshRIR is a dataset of acoustic room impulse responses on finely meshed grid po
 # Reference
 
 # Contact
-[Shoichi Koyama](https://www.sh01.org)
+[Shoichi Koyama](https://www.sh01.org) (The University of Tokyo, Tokyo, Japan)
