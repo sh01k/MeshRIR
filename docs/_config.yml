@@ -1,2 +1,4 @@
 theme: jekyll-theme-slate
-name: MeshRIR
+title: MeshRIR
+description: A dataset of room impulse responses on a mesh
+show_downloads: false
