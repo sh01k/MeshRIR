@@ -1,4 +1,3 @@
 theme: jekyll-theme-slate
 title: MeshRIR
-description: A dataset of room impulse responses on a mesh
-show_downloads: false
+description: Dataset of room impulse responses on finely meshed grid points
