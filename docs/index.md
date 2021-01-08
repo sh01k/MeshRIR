@@ -3,7 +3,7 @@ MeshRIR is a dataset of acoustic room impulse responses on finely meshed grid po
 
 # Download
 
-# Detailed description of dataset
+# Detailed description
 
 # Usage
 
