@@ -6,7 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,maximum-scale=2">
     <link rel="stylesheet" type="text/css" media="screen" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
-
+    
+    <style>
+      .logo{
+        -moz-vbox-shadow: 0px 0px 0px rgba(0, 0, 0, .1);
+        -webkit-box-shadow: 0px 0px 0px rgba(0, 0, 0, .1);
+        box-shadow: 0px 0px 0px rgba(0, 0, 0, .1);
+      }
+    </style>
+    
 {% seo %}
   </head>
 
@@ -19,8 +27,8 @@
             <a id="forkme_banner" href="{{ site.github.repository_url }}">View on GitHub</a>
           {% endif %}
 
-          <img src="img/logo.png" alt="MeshRIR" width="800" border="0">
-          <h1 id="project_title">{{ site.title | default: site.github.repository_name }}</h1>
+          <img src="img/logo.png" alt="MeshRIR" width="800" border="0" class="logo">
+          <!-- h1 id="project_title">{{ site.title | default: site.github.repository_name }}</h1 -->
           <h2 id="project_tagline">{{ site.description | default: site.github.project_tagline }}</h2>
 
           {% if site.show_downloads %}
