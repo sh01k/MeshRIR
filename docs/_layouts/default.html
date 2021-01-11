@@ -14,6 +14,25 @@
         -webkit-box-shadow: 0px 0px 0px rgba(0, 0, 0, .1);
         box-shadow: 0px 0px 0px rgba(0, 0, 0, .1);
       }
+      #downloads {
+        position: absolute;
+        width: 210px;
+        z-index: 10;
+        bottom: -40px;
+        right: 0;
+        height: 70px;
+        background: url('../images/icon_download.png') no-repeat 0% 90%;
+      }
+
+      .zip_download_link {
+        display: block;
+        float: right;
+        width: 90px;
+        height:70px;
+        text-indent: -5000px;
+        overflow: hidden;
+        background: url(../images/sprite_download.png) no-repeat bottom left;
+      }
     </style>
     
 {% seo %}
@@ -32,6 +51,9 @@
           <!-- h1 id="project_title">{{ site.title | default: site.github.repository_name }}</h1 -->
           <h2 id="project_tagline">{{ site.description | default: site.github.project_tagline }}</h2>
 
+          <section id="downloads">
+              <a class="zip_download_link" href="{{ site.github.zip_url }}">Download this project as a .zip file</a>
+          </section>
           {% if site.show_downloads %}
             <section id="downloads">
               <a class="zip_download_link" href="{{ site.github.zip_url }}">Download this project as a .zip file</a>
