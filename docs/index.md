@@ -85,19 +85,16 @@ The file format is `.npy` for Numpy and `.mat` for MATLAB. All the additional da
 See [ir_view.ipynb](https://github.com/sh01k/MeshRIR/blob/main/ir_view.ipynb) for the details.
 
 - Import [irutilities.py](https://github.com/sh01k/MeshRIR/blob/main/irutilities.py)
-
 ~~~
     import irutilities as irutil
 ~~~
 
 - Load microphone and source positions, and IR data
-
 ~~~
     posMic, posSrc, ir = irutil.loadIR(path_to_data_folder)
 ~~~
 
 - Plot IR of source `srcIdx` and mic `micIdx`
-
 ~~~
     irutil.irPlots(ir[srcIdx, micIdx, :], samplerate)
 ~~~
