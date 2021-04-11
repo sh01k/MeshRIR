@@ -11,12 +11,16 @@ The MeshRIR dataset consists of two sub-datasets.
 #### S1-M3969
 - IRs inside 3D cuvoid region from single source position
 
+<img src="./img/pos_S1-M3969.png" alt="pos" width="300">
+
 #### S32-M441
 - IRs inside 2D square region from 32 source positions
 
+<img src="./img/pos_S32-M441.png" alt="pos" width="300">
+
 The file format is `.npy` for Numpy and `.mat` for MATLAB. All the additional data is provided as a JSON file. Detailed measurement conditions are as follows.
 
-<table>
+<table width="100%">
     <thead>
     <tr>
     <th></th>
@@ -71,7 +75,7 @@ The file format is `.npy` for Numpy and `.mat` for MATLAB. All the additional da
 
 
 # Usage
-## Basic usage examples
+### Basic usage examples
 See [ir_view.ipynb](https://github.com/sh01k/MeshRIR/blob/main/ir_view.ipynb) for the details.
 - Import [irutilities.py](https://github.com/sh01k/MeshRIR/blob/main/irutilities.py)
 ~~~
@@ -82,7 +86,7 @@ See [ir_view.ipynb](https://github.com/sh01k/MeshRIR/blob/main/ir_view.ipynb) fo
     posMic, posSrc, ir = irutil.loadIR(path_to_data_folder)
 ~~~
 
-## Application examples
+### Application examples
 - Sound field reconstruction: [examples/sf_reconst.ipynb](https://github.com/sh01k/MeshRIR/blob/main/example/sf_reconst.ipynb)
 - Sound field control: [examples/sf_control.ipynb](https://github.com/sh01k/MeshRIR/blob/main/example/sf_control.ipynb)
 
