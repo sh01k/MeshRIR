@@ -8,31 +8,79 @@ TBA
 
 # Detailed description
 The MeshRIR dataset consists of two sub-datasets. 
-- S1-M3969: IRs inside 3D cuvoid region from single source position
-- S32-M441: IRs inside 2D square region from 32 source positions
-Detailed measurement conditions are as follows.
+#### S1-M3969
+- IRs inside 3D cuvoid region from single source position
 
+#### S32-M441
+- IRs inside 2D square region from 32 source positions
 
-|  | S1-M3969 | S32-M441 |
-| :---- | :----: | :----: |
-| Sampling rate | 48000 Hz ||
-| IR length | 32768 samples ||
-| Room dimensions | 7.0 m x 6.4 m x 2.7 m ||
-| Number of source positions | 1 | 32 |
-| Measurement region | 3D cuboid: 1.0 m x 1.0 m x 0.4 m | 2D square: 1.0 m x 1.0 m |
-| Intervals of microphone positions | 0.05 m ||
-| Number of microphone positions | 21 x 21 x 9 (=3969) points | 21 x 21 (=441) points |
-| Reverberation time (T60) |  0.38 s | 0.19 s |
-| Average temperature | 26.3 °C  | 17.1 °C |
+The file format is `.npy` for Numpy and `.mat` for MATLAB. All the additional data is provided as a JSON file. Detailed measurement conditions are as follows.
+
+<table>
+    <thead>
+    <tr>
+    <th></th>
+    <th style="text-align:center">S1-M3969</th>
+    <th style="text-align:center">S32-M441</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <td>Sampling rate</td>
+    <td style="text-align:center" colspan="2">48000 Hz</td>
+    </tr>
+    <tr>
+    <td>IR length</td>
+    <td style="text-align:center" colspan="2">32768 samples</td>
+    </tr>
+    <tr>
+    <td>Room dimensions</td>
+    <td style="text-align:center" colspan="2">7.0 m x 6.4 m x 2.7 m</td>
+    </tr>
+    <tr>
+    <td>Number of sources</td>
+    <td style="text-align:center">1</td>
+    <td style="text-align:center">32</td>
+    </tr>
+    <tr>
+    <td>Measurement region</td>
+    <td style="text-align:center">1.0 m x 1.0 m x 0.4 m</td>
+    <td style="text-align:center">1.0 m x 1.0 m </td>
+    </tr>
+    <tr>
+    <td>Intervals of mics</td>
+    <td style="text-align:center" colspan="2">0.05 m</td>
+    </tr>
+    <tr>
+    <td>Number of mics</td>
+    <td style="text-align:center">21 x 21 x 9 points</td>
+    <td style="text-align:center">21 x 21 points </td>
+    </tr>
+    <tr>
+    <td>Reverberation time T<sub>60</sub></td>
+    <td style="text-align:center">0.38 s</td>
+    <td style="text-align:center">0.19 s</td>
+    </tr>
+    <tr>
+    <td>Avg. temperature</td>
+    <td style="text-align:center">26.3 °C</td>
+    <td style="text-align:center">17.1 °C</td>
+    </tr>
+    </tbody>
+</table>
 
 
 # Usage
 ## Basic usage examples
 See [ir_view.ipynb](https://github.com/sh01k/MeshRIR/blob/main/ir_view.ipynb) for the details.
-- Import irutilities
+- Import [irutilities.py](https://github.com/sh01k/MeshRIR/blob/main/irutilities.py)
+~~~
     import irutilities as irutil
+~~~
 - Load microphone and source positions, and IR data
+~~~
     posMic, posSrc, ir = irutil.loadIR(path_to_data_folder)
+~~~
 
 ## Application examples
 - Sound field reconstruction: [examples/sf_reconst.ipynb](https://github.com/sh01k/MeshRIR/blob/main/example/sf_reconst.ipynb)
