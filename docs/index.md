@@ -27,9 +27,9 @@ The file format is `.npy` for Numpy and `.mat` for MATLAB. All the additional da
 <table width="100%">
     <thead>
     <tr>
-    <th></th>
-    <th style="text-align:center">S1-M3969</th>
-    <th style="text-align:center">S32-M441</th>
+    <th width="30%"></th>
+    <th width="35%" style="text-align:center">S1-M3969</th>
+    <th width="35%" style="text-align:center">S32-M441</th>
     </tr>
     </thead>
     <tbody>
