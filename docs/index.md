@@ -19,7 +19,10 @@ The MeshRIR dataset consists of two sub-datasets.
 <figcaption>Source and microphone positions of <b>S1-M3969</b> (left) and <b>S32-M441</b> (right)</figcaption>
 </figure>
 
-The file format is `.npy` for Numpy and `.mat` for MATLAB. All the additional data is provided as a JSON file. Detailed measurement conditions are as follows.
+#### File format
+The file format is `.npy` for Numpy and `.mat` for MATLAB. All the additional data is provided as a JSON file. 
+
+#### Measurement conditions
 
 <table width="100%">
     <thead>
