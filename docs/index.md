@@ -9,14 +9,15 @@ TBA
 # Detailed description
 The MeshRIR dataset consists of two sub-datasets. 
 #### S1-M3969
-- IRs inside 3D cuvoid region from single source position
-
-<img src="./img/pos_S1-M3969.png" alt="pos" width="300">
+- IRs inside 3D cuboid region from single source position
 
 #### S32-M441
 - IRs inside 2D square region from 32 source positions
 
-<img src="./img/pos_S32-M441.png" alt="pos" width="300">
+<figure id="position">
+<img src="./img/pos_S1-M3969.png" alt="pos" width="280"> <img src="./img/pos_S32-M441.png" alt="pos" width="280">
+<figcaption>Source and microphone positions of <b>S1-M3969</b> (left) and <b>S32-M441</b> (right)</figcaption>
+</figure>
 
 The file format is `.npy` for Numpy and `.mat` for MATLAB. All the additional data is provided as a JSON file. Detailed measurement conditions are as follows.
 
