@@ -81,13 +81,20 @@ The file format is `.npy` for Numpy and `.mat` for MATLAB. All the additional da
 # Usage
 ### Basic usage examples
 See [ir_view.ipynb](https://github.com/sh01k/MeshRIR/blob/main/ir_view.ipynb) for the details.
+
 - Import [irutilities.py](https://github.com/sh01k/MeshRIR/blob/main/irutilities.py)
 ~~~
     import irutilities as irutil
 ~~~
+
 - Load microphone and source positions, and IR data
 ~~~
     posMic, posSrc, ir = irutil.loadIR(path_to_data_folder)
+~~~
+
+- Plot IR of source `srcIdx` and mic `micIdx`
+~~~
+    irutil.irPlots(ir[srcIdx, micIdx, :], samplerate)
 ~~~
 
 ### Application examples
@@ -95,7 +102,9 @@ See [ir_view.ipynb](https://github.com/sh01k/MeshRIR/blob/main/ir_view.ipynb) fo
 - Sound field control: [examples/sf_control.ipynb](https://github.com/sh01k/MeshRIR/blob/main/example/sf_control.ipynb)
 
 # References
-TBA
+1. [N. Ueno, S. Koyama, and H. Saruwatari, “Sound field recording using distributed microphones based on harmonic analysis of infinite order,” IEEE Signal Process. Lett., 2018.](https://doi.org/10.1109/LSP.2017.2775242)
+1. [N. Ueno, S. Koyama, and H. Saruwatari, “Kernel ridge regression with constraint of Helmholtz equation for sound field interpolation,” in Proc. IWAENC,  2018.](https://doi.org/10.1109/IWAENC.2018.8521334)
+1. [N. Ueno, S. Koyama, and H. Saruwatari, “Three-dimensional sound field reproduction based on weighted mode-matching method,” IEEE/ACM Trans. ASLP, 2019.](https://doi.org/10.1109/TASLP.2019.2934834)
 
 # Author
 - [Shoichi Koyama](https://www.sh01.org) (The University of Tokyo, Tokyo, Japan)
