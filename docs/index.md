@@ -16,7 +16,7 @@ The MeshRIR dataset consists of two sub-datasets.
 #### S32-M441
 - IRs inside 2D square region from 32 source positions
 
-<figure id="position">
+<figure id="position" style="text-align:center">
 <img src="./img/pos_S1-M3969.png" alt="pos" width="280"> <img src="./img/pos_S32-M441.png" alt="pos" width="280">
 <figcaption>Source and microphone positions of <strong>S1-M3969</strong> (left) and <strong>S32-M441</strong> (right)</figcaption>
 </figure>
@@ -87,25 +87,19 @@ See [ir_view.ipynb](https://github.com/sh01k/MeshRIR/blob/main/ir_view.ipynb) fo
 
 
 - Import [irutilities.py](https://github.com/sh01k/MeshRIR/blob/main/irutilities.py)
-
 ~~~python
 import irutilities as irutil
 ~~~
-<br />
 
 - Load microphone and source positions, and IR data
-
 ~~~python
 posMic, posSrc, ir = irutil.loadIR(path_to_data_folder)
 ~~~
-<br />
 
 - Plot IR of source `srcIdx` and mic `micIdx`
-
 ~~~python
 irutil.irPlots(ir[srcIdx, micIdx, :], samplerate)
 ~~~
-<br />
 
 ### Application examples
 - Sound field reconstruction: [examples/sf_reconst.ipynb](https://github.com/sh01k/MeshRIR/blob/main/example/sf_reconst.ipynb)
