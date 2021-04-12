@@ -18,13 +18,14 @@ The MeshRIR dataset consists of two sub-datasets.
 
 <figure id="position">
 <img src="./img/pos_S1-M3969.png" alt="pos" width="280"> <img src="./img/pos_S32-M441.png" alt="pos" width="280">
-<figcaption>Source and microphone positions of <b>S1-M3969</b> (left) and <b>S32-M441</b> (right)</figcaption>
+<figcaption>Source and microphone positions of <strong>S1-M3969</strong> (left) and <strong>S32-M441</strong> (right)</figcaption>
 </figure>
 
 #### File format
 The file format is `.npy` for Numpy and `.mat` for MATLAB. All the additional data is provided as a JSON file. 
 
 #### Measurement conditions
+IR at each position was measured by using a cartesian robot employed with an omnidirectional microphone (Primo, EM272J). The signal input and output were controlled by a PC with Dante interface. 
 
 <table width="100%">
     <thead>
@@ -67,7 +68,7 @@ The file format is `.npy` for Numpy and `.mat` for MATLAB. All the additional da
     <td style="text-align:center">21 x 21 points </td>
     </tr>
     <tr>
-    <td>Reverberation time T<sub>60</sub></td>
+    <td>RT60</td>
     <td style="text-align:center">0.38 s</td>
     <td style="text-align:center">0.19 s</td>
     </tr>
@@ -84,30 +85,37 @@ The file format is `.npy` for Numpy and `.mat` for MATLAB. All the additional da
 ### Basic usage examples
 See [ir_view.ipynb](https://github.com/sh01k/MeshRIR/blob/main/ir_view.ipynb) for the details.
 
+
 - Import [irutilities.py](https://github.com/sh01k/MeshRIR/blob/main/irutilities.py)
-~~~
-    import irutilities as irutil
+
+~~~python
+import irutilities as irutil
 ~~~
 
 - Load microphone and source positions, and IR data
-~~~
-    posMic, posSrc, ir = irutil.loadIR(path_to_data_folder)
+
+~~~python
+posMic, posSrc, ir = irutil.loadIR(path_to_data_folder)
 ~~~
 
 - Plot IR of source `srcIdx` and mic `micIdx`
-~~~
-    irutil.irPlots(ir[srcIdx, micIdx, :], samplerate)
+
+~~~python
+irutil.irPlots(ir[srcIdx, micIdx, :], samplerate)
 ~~~
 
 ### Application examples
 - Sound field reconstruction: [examples/sf_reconst.ipynb](https://github.com/sh01k/MeshRIR/blob/main/example/sf_reconst.ipynb)
     - Estimation of pressure distribution by using the method proposed in [1].
+    - Microphone positions are selected by the MSE-based sensor placement method [2].
+
 - Sound field control: [examples/sf_control.ipynb](https://github.com/sh01k/MeshRIR/blob/main/example/sf_control.ipynb)
     - Synthesis of planewave field by pressure matching
-    - Weighted mode-matching [2] is also demonstrated
+    - Weighted mode-matching [3] is also demonstrated
 
 # References
 1. [N. Ueno, S. Koyama, and H. Saruwatari, “Sound field recording using distributed microphones based on harmonic analysis of infinite order,” IEEE SPL, 2018.](https://doi.org/10.1109/LSP.2017.2775242)
+1. [T. Nishida, N. Ueno, S. Koyama, and H. Saruwatari, “Sensor placement in arbitrarily restricted region for field estimation based on Gaussian process,” in Proc. EUSIPCO, 2020.](https://doi.org/10.23919/Eusipco47968.2020.9287222)
 1. [N. Ueno, S. Koyama, and H. Saruwatari, “Three-dimensional sound field reproduction based on weighted mode-matching method,” IEEE/ACM Trans. ASLP, 2019.](https://doi.org/10.1109/TASLP.2019.2934834)
 
 # Author
