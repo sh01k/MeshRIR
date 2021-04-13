@@ -2,3 +2,5 @@ theme: jekyll-theme-slate
 title: MeshRIR
 description: Dataset of room impulse responses on meshed grid points
 show_downloads: false
+plugins:
+  - jekyll-sitemap
