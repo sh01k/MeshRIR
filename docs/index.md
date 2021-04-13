@@ -25,7 +25,7 @@ The MeshRIR dataset consists of two sub-datasets.
 The file format is `.npy` for Numpy and `.mat` for MATLAB. All the additional data is provided as a JSON file. 
 
 #### Measurement conditions
-IR at each position was measured by using a cartesian robot employed with an omnidirectional microphone (Primo, EM272J). The signal input and output were controlled by a PC with Dante interface. Loudspeaker was DIATONE, DS-7 for <strong>S1-M3989</strong> and YAMAHA, VXS1MLB <strong>S32-M441</strong>.
+IR at each position was measured by using a cartesian robot employed with an omnidirectional microphone (Primo, EM272J). The signal input and output were controlled by a PC with Dante interface. Loudspeaker was DIATONE, DS-7 for <strong>S1-M3989</strong> and YAMAHA, VXS1MLB for <strong>S32-M441</strong>.
 
 <table width="100%">
     <thead>
