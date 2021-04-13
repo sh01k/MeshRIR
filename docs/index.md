@@ -90,35 +90,29 @@ IR at each position was measured by using a cartesian robot employed with an omn
 See [ir_view.ipynb](https://github.com/sh01k/MeshRIR/blob/main/ir_view.ipynb) for the details.
 
 
-- Import [irutilities.py](https://github.com/sh01k/MeshRIR/blob/main/irutilities.py)
-
 <div style="margin:2px">
+- Import [irutilities.py](https://github.com/sh01k/MeshRIR/blob/main/irutilities.py)
+</div>
 
 ~~~python
 import irutilities as irutil
 ~~~
 
-</div>
-
-- Load microphone and source positions, and IR data
-
 <div style="margin:2px">
+- Load microphone and source positions, and IR data
+</div>
 
 ~~~python
 posMic, posSrc, ir = irutil.loadIR(path_to_data_folder)
 ~~~
 
-</div>
-
-- Plot IR of source `srcIdx` and mic `micIdx`
-
 <div style="margin:2px">
+- Plot IR of source `srcIdx` and mic `micIdx`
+</div>
 
 ~~~python
 irutil.irPlots(ir[srcIdx, micIdx, :], samplerate)
 ~~~
-
-</div>
 
 ### Application examples
 - Sound field reconstruction: [examples/sf_reconst.ipynb](https://github.com/sh01k/MeshRIR/blob/main/example/sf_reconst.ipynb)
