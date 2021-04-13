@@ -25,7 +25,7 @@ The MeshRIR dataset consists of two sub-datasets.
 The file format is `.npy` for Numpy and `.mat` for MATLAB. All the additional data is provided as a JSON file. 
 
 #### Measurement conditions
-IR at each position was measured by using a cartesian robot employed with an omnidirectional microphone (Primo, EM272J). The signal input and output were controlled by a PC with Dante interface. 
+IR at each position was measured by using a cartesian robot employed with an omnidirectional microphone (Primo, EM272J). The signal input and output were controlled by a PC with Dante interface. Loudspeaker was DIATONE, DS-7 for <strong>S1-M3989</strong> and YAMAHA, VXS1MLB <strong>S32-M441</strong>.
 
 <table width="100%">
     <thead>
@@ -80,6 +80,10 @@ IR at each position was measured by using a cartesian robot employed with an omn
     </tbody>
 </table>
 
+<figure id="position" style="text-align:center">
+<img src="./img/sf_measurement_spkarray.png" alt="pos" width="320"> 
+<figcaption>IR measurement system for <strong>S32-M441</strong></figcaption>
+</figure>
 
 # Usage
 ### Basic usage examples
@@ -87,19 +91,34 @@ See [ir_view.ipynb](https://github.com/sh01k/MeshRIR/blob/main/ir_view.ipynb) fo
 
 
 - Import [irutilities.py](https://github.com/sh01k/MeshRIR/blob/main/irutilities.py)
+
+<div style="padding:2px">
+
 ~~~python
 import irutilities as irutil
 ~~~
 
+</div>
+
 - Load microphone and source positions, and IR data
+
+<div style="padding:2px">
+
 ~~~python
 posMic, posSrc, ir = irutil.loadIR(path_to_data_folder)
 ~~~
 
+</div>
+
 - Plot IR of source `srcIdx` and mic `micIdx`
+
+<div style="padding:2px">
+
 ~~~python
 irutil.irPlots(ir[srcIdx, micIdx, :], samplerate)
 ~~~
+
+</div>
 
 ### Application examples
 - Sound field reconstruction: [examples/sf_reconst.ipynb](https://github.com/sh01k/MeshRIR/blob/main/example/sf_reconst.ipynb)
