@@ -81,7 +81,7 @@ IR at each position was measured by using a cartesian robot employed with an omn
 </table>
 
 <figure id="position" style="text-align:center">
-<img src="./img/sf_measurement_spkarray.png" alt="pos" width="320"> 
+<img src="./img/sf_measurement_spkarray.png" alt="pos" width="380"> 
 <figcaption>IR measurement system for <strong>S32-M441</strong></figcaption>
 </figure>
 
@@ -92,7 +92,7 @@ See [ir_view.ipynb](https://github.com/sh01k/MeshRIR/blob/main/ir_view.ipynb) fo
 
 - Import [irutilities.py](https://github.com/sh01k/MeshRIR/blob/main/irutilities.py)
 
-<div style="padding:2px">
+<div style="margin:2px">
 
 ~~~python
 import irutilities as irutil
@@ -102,7 +102,7 @@ import irutilities as irutil
 
 - Load microphone and source positions, and IR data
 
-<div style="padding:2px">
+<div style="margin:2px">
 
 ~~~python
 posMic, posSrc, ir = irutil.loadIR(path_to_data_folder)
@@ -112,7 +112,7 @@ posMic, posSrc, ir = irutil.loadIR(path_to_data_folder)
 
 - Plot IR of source `srcIdx` and mic `micIdx`
 
-<div style="padding:2px">
+<div style="margin:2px">
 
 ~~~python
 irutil.irPlots(ir[srcIdx, micIdx, :], samplerate)
