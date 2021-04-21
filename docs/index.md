@@ -86,7 +86,7 @@ IR at each position was measured by using a cartesian robot employed with an omn
 </figure>
 
 # Usage
-### Basic usage examples
+### Basic usage examples (Python)
 See [ir_view.ipynb](https://github.com/sh01k/MeshRIR/blob/main/ir_view.ipynb) for the details.
 
 
@@ -107,6 +107,13 @@ posMic, posSrc, ir = irutil.loadIR(path_to_data_folder)
 irutil.irPlots(ir[srcIdx, micIdx, :], samplerate)
 ~~~
 
+### Basic usage examples (MATLAB)
+See [ir_view.m](https://github.com/sh01k/MeshRIR/blob/main/ir_view.m) for the details.
+
+- Load microphone and source positions, and IR data
+~~~matlab
+[posMic, posSrc, ir] = loadIR(path_to_data_folder)
+~~~
 
 ### Application examples
 - Sound field reconstruction: [examples/sf_reconst.ipynb](https://github.com/sh01k/MeshRIR/blob/main/example/sf_reconst.ipynb)
