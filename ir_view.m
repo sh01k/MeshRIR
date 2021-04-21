@@ -7,7 +7,7 @@ set(0,'defaultAxesFontSize',18);
 set(0,'defaultTextFontSize',18);
 
 % Load IR data
-folderName = "S32-M441_mat/"; % "S1-M3969_mat/"; % 
+folderName = "S1-M3969_mat/"; % "S32-M441_mat/"; % 
 [posMic, posSrc, ir] = loadIR(folderName);
 
 % Sampling rate
