@@ -110,6 +110,11 @@ irutil.irPlots(ir[srcIdx, micIdx, :], samplerate)
 ### Basic usage examples (MATLAB)
 See [ir_view.m](https://github.com/sh01k/MeshRIR/blob/main/ir_view.m) for the details.
 
+- Add folder "matfiles" to search path
+~~~matlab
+addpath('matfiles');
+~~~
+
 - Load microphone and source positions, and IR data
 ~~~matlab
 [posMic, posSrc, ir] = loadIR(path_to_data_folder);
