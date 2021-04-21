@@ -127,6 +127,6 @@ irutil.irPlots(ir[srcIdx, micIdx, :], samplerate)
 - Tomoya Nishida
 - Keisuke Kimura
 - Takumi Abe
-- Natsuki Ueno
+- [Natsuki Ueno](https://natsuenono.github.io/)
 - Jesper Brunnström
  
