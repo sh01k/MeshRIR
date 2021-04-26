@@ -1,5 +1,5 @@
 # About MeshRIR
-MeshRIR is a dataset of acoustic room impulse responses (RIRs) on finely meshed grid points. Two sub-datasets are currently available: one is IRs in 3D cuboid region from a single source, and the other is IRs in 2D square region from array of 32 sources. This dataset is suitable for evaluating sound field analysis and synthesis methods.
+MeshRIR is a dataset of acoustic room impulse responses (RIRs) at finely meshed grid points. Two subdatasets are currently available: one consists of IRs in a 3D cuboidal region from a single source, and the other consists of IRs in a 2D square region from an array of 32 sources. This dataset is suitable for evaluating sound field analysis and synthesis methods.
 
 <div style="text-align:center">
 <img src="./img/wave.gif" alt="wave" width="500">
@@ -9,12 +9,12 @@ MeshRIR is a dataset of acoustic room impulse responses (RIRs) on finely meshed 
 TBA
 
 # Detailed description
-The MeshRIR dataset consists of two sub-datasets. 
+MeshRIR dataset consists of two subdatasets. 
 #### S1-M3969
-- IRs inside 3D cuboid region from single source position
+- IRs inside a 3D cuboidal region from a single source position
 
 #### S32-M441
-- IRs inside 2D square region from 32 source positions
+- IRs inside a 2D square region from 32 source positions
 
 <figure id="position" style="text-align:center">
 <img src="./img/pos_S1-M3969.png" alt="pos" width="280"> <img src="./img/pos_S32-M441.png" alt="pos" width="280">
@@ -22,10 +22,10 @@ The MeshRIR dataset consists of two sub-datasets.
 </figure>
 
 #### File format
-The file format is `.npy` for Numpy and `.mat` for MATLAB. All the additional data is provided as a JSON file. 
+The file formats are `.npy` for Python (Numpy) and `.mat` for MATLAB. All the additional data are provided as a JSON file. 
 
 #### Measurement conditions
-IR at each position was measured by using a cartesian robot employed with an omnidirectional microphone (Primo, EM272J). The signal input and output were controlled by a PC with Dante interface. Loudspeaker was DIATONE, DS-7 for <strong>S1-M3989</strong> and YAMAHA, VXS1MLB for <strong>S32-M441</strong>.
+The IR at each position was measured using a Cartesian robot with an omnidirectional microphone (Primo, EM272J). The signal input and output were controlled by a PC with a Dante interface. The loudspeaker was DIATONE, DS-7 for <strong>S1-M3989</strong> and YAMAHA, VXS1MLB for <strong>S32-M441</strong>.
 
 <table width="100%">
     <thead>
@@ -122,7 +122,7 @@ addpath('matfiles');
 
 ### Application examples
 - Sound field reconstruction: [examples/sf_reconst.ipynb](https://github.com/sh01k/MeshRIR/blob/main/example/sf_reconst.ipynb)
-    - Estimation of pressure distribution by using the method proposed in [1].
+    - Estimation of pressure distribution using the method proposed in [1].
     - Microphone positions are selected by the MSE-based sensor placement method [2].
 
 - Sound field control: [examples/sf_control.ipynb](https://github.com/sh01k/MeshRIR/blob/main/example/sf_control.ipynb)
