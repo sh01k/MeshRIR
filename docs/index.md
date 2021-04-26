@@ -46,7 +46,7 @@ The IR at each position was measured using a Cartesian robot with an omnidirecti
     </tr>
     <tr>
     <td>Room dimensions</td>
-    <td style="text-align:center" colspan="2">7.0 m x 6.4 m x 2.7 m</td>
+    <td style="text-align:center" colspan="2">7.0 m × 6.4 m × 2.7 m</td>
     </tr>
     <tr>
     <td>Number of sources</td>
@@ -55,8 +55,8 @@ The IR at each position was measured using a Cartesian robot with an omnidirecti
     </tr>
     <tr>
     <td>Measurement region</td>
-    <td style="text-align:center">1.0 m x 1.0 m x 0.4 m</td>
-    <td style="text-align:center">1.0 m x 1.0 m </td>
+    <td style="text-align:center">1.0 m × 1.0 m × 0.4 m</td>
+    <td style="text-align:center">1.0 m × 1.0 m </td>
     </tr>
     <tr>
     <td>Intervals of mics</td>
@@ -64,8 +64,8 @@ The IR at each position was measured using a Cartesian robot with an omnidirecti
     </tr>
     <tr>
     <td>Number of mics</td>
-    <td style="text-align:center">21 x 21 x 9 points</td>
-    <td style="text-align:center">21 x 21 points </td>
+    <td style="text-align:center">21 × 21 × 9 points</td>
+    <td style="text-align:center">21 × 21 points </td>
     </tr>
     <tr>
     <td>RT60</td>
