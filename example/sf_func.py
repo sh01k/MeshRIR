@@ -294,11 +294,14 @@ def kiFilterGenDir(k, posMic, posEst, angSrc, betaSrc, filterLen=None, smplShift
     if filterLen is None:
         filterLen = numFreq+1
     if smplShift is None:
-        smplShift = numFreq/2
+        smplShift = int(numFreq/2)
+
+    thetaSrc = angSrc[0]
+    phiSrc = angSrc[1]
 
     k = k[:, None, None]
     rDiffMat = (np.tile(posMic[:, None, :], (1, numMic, 1)) - np.tile(posMic[None, :, :], (numMic, 1, 1)))[None, :, :, :]
-    distMat = np.sqrt((1j*betaSrc*np.cos(angSrc) - k*rDiffMat[:, :, :, 0])**2 + (1j*betaSrc*np.sin(angSrc) - k*rDiffMat[:, :, :, 1])**2)
+    distMat = np.sqrt((1j*betaSrc*np.sin(thetaSrc)*np.cos(phiSrc) - k*rDiffMat[:, :, :, 0])**2 + (1j*betaSrc*np.sin(thetaSrc)*np.sin(angSrc) - k*rDiffMat[:, :, :, 1])**2 + (1j*betaSrc*np.cos(thetaSrc) - k*rDiffMat[:, :, :, 2])**2)
     K = special.spherical_jn(0, distMat)
     Kinv = np.linalg.inv(K + reg * np.eye(numMic)[None, :, :])
     rDiffVec = (np.tile(posEst[None, :, :], (numMic, 1, 1)) - np.tile(posMic[:, None, :], (1, numEst, 1)))[None, :, :, :]
