@@ -5,4 +5,4 @@ See the link below for the details.
 - https://sh01k.github.io/MeshRIR/
 
 ### Usage
-Extract the data files in the folder "src". See "ir_view.ipynb" or "ir_view.m" for processing the IR data. Example codes for sound field analysis and synthesis are included in the folder "example".
+Extract the data files in the folder "src". For processing the IR data, see "ir_view.html" (converted from .ipynb) for Python or "ir_view.m" for Matlab. Example codes for sound field analysis and synthesis are included in the folder "example".
