@@ -24,7 +24,7 @@ If you use the MeshRIR dataset for your research, cite the following paper:
 ```
 
 ## License
-The MeshRIR dataset is provided under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://github.com/sh01k/MeshRIR/blob/master/LICENSE).
+The MeshRIR dataset is provided under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://github.com/sh01k/MeshRIR/blob/main/LICENSE).
 
 ## Author
 - [Shoichi Koyama](https://www.sh01.org) (The University of Tokyo, Tokyo, Japan)
