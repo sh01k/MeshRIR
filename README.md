@@ -13,17 +13,6 @@ The dataset is available in the following link:
 Extract the data files in the folder "src". For processing the IR data, see "ir_view.html" (converted from .ipynb) for Python or "ir_view.m" for Matlab. Example codes for sound field analysis and synthesis are included in the folder "example". Latest codes are available here: 
 - https://github.com/sh01k/MeshRIR
 
-If you use the MeshRIR dataset for your research, cite the following paper:
-```
-@inproceedings{MeshRIR,
-  author    = "Shoichi Koyama and Tomoya Nishida and Keisuke Kimura and
-               Takumi Abe and Natsuki Ueno and Jesper Brunnstr\"{o}m",
-  title     = "{MeshRIR}: A Dataset of Room Impulse Responses on Meshed Grid Points For Evaluating Sound Field Analysis and Synthesis Methods",
-  booktitle = "arXiv",
-  year      = "2021"
-}
-```
-
 ## License
 The MeshRIR dataset is provided under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://github.com/sh01k/MeshRIR/blob/main/LICENSE).
 
