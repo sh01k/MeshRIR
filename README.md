@@ -4,5 +4,5 @@ MeshRIR is a dataset of acoustic room impulse responses (RIRs) at finely meshed 
 See the link below for the details.
 https://sh01k.github.io/MeshRIR/
 
-# Usage
+### Usage
 Extract the data files in the folder "src". See "ir_view.ipynb" or "ir_view.m" for processing the IR data. Example codes for sound field analysis and synthesis are included in the folder "example".
