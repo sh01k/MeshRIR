@@ -20,7 +20,7 @@ If you use the MeshRIR dataset for your research, cite the following paper:
   booktitle = {arXiv},
   year = {2021}
 }
-\\\
+```
 
 # License
 The MeshRIR dataset is provided under Creative Commons Attribution 4.0 International (CC BY 4.0). 
@@ -108,34 +108,34 @@ See [ir_view.ipynb](https://github.com/sh01k/MeshRIR/blob/main/ir_view.ipynb) fo
 
 
 - Import [irutilities.py](https://github.com/sh01k/MeshRIR/blob/main/irutilities.py)
-~~~python
+```python
 import irutilities as irutil
-~~~
+```
 
 
 - Load microphone and source positions, and IR data
-~~~python
+```python
 posMic, posSrc, ir = irutil.loadIR(path_to_data_folder)
-~~~
+```
 
 
 - Plot IR of source `srcIdx` and mic `micIdx`
-~~~python
+```python
 irutil.irPlots(ir[srcIdx, micIdx, :], samplerate)
-~~~
+```
 
 ### Basic usage examples (MATLAB)
 See [ir_view.m](https://github.com/sh01k/MeshRIR/blob/main/ir_view.m) for the details.
 
 - Add folder "[matfiles](https://github.com/sh01k/MeshRIR/tree/main/matfiles)" to search path
-~~~matlab
+```matlab
 addpath('matfiles');
-~~~
+```
 
 - Load microphone and source positions, and IR data
-~~~matlab
+```matlab
 [posMic, posSrc, ir] = loadIR(path_to_data_folder);
-~~~
+```
 
 ### Application examples
 - Sound field reconstruction: [examples/sf_reconst.ipynb](https://github.com/sh01k/MeshRIR/blob/main/example/sf_reconst.ipynb)
