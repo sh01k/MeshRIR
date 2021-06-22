@@ -148,7 +148,7 @@ addpath('matfiles');
     - Weighted mode-matching [4] is also demonstrated. Details can be found in [5].
 
 # References
-1. [S, Koyama, T. Nishida, K. Kimura, T. Abe, N. Ueno, and J. Brunnström, "MeshRIR: A dataset of room impulse responses on meshed Grid points for evaluating sound field analysis and synthesis methods," arXiv preprint arXiv:2106.10801, 2021.](https://arxiv.org/abs/2106.10801)
+1. [S. Koyama, T. Nishida, K. Kimura, T. Abe, N. Ueno, and J. Brunnström, "MeshRIR: A dataset of room impulse responses on meshed grid points for evaluating sound field analysis and synthesis methods," arXiv preprint arXiv:2106.10801, 2021.](https://arxiv.org/abs/2106.10801)
 1. [N. Ueno, S. Koyama, and H. Saruwatari, “Sound field recording using distributed microphones based on harmonic analysis of infinite order,” IEEE SPL, 2018.](https://doi.org/10.1109/LSP.2017.2775242)
 1. [T. Nishida, N. Ueno, S. Koyama, and H. Saruwatari, “Sensor placement in arbitrarily restricted region for field estimation based on Gaussian process,” in Proc. EUSIPCO, 2020.](https://doi.org/10.23919/Eusipco47968.2020.9287222)
 1. [N. Ueno, S. Koyama, and H. Saruwatari, “Three-dimensional sound field reproduction based on weighted mode-matching method,” IEEE/ACM Trans. ASLP, 2019.](https://doi.org/10.1109/TASLP.2019.2934834)
