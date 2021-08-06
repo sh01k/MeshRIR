@@ -13,12 +13,14 @@ function [pos_mic, pos_src, fullIR] = loadIR(folderName)
     allIR = zeros(numMic, numSrc, irLen);
     irIndices = zeros(numMic, 1);
     disp('Loading IR files...')
+    idx = 1;
     for i = 1:size(fileList, 1)
        if strncmp(fileList(i).name, 'ir_', 3)
            %disp(fileList(i).name)
            load(append(folderName, fileList(i).name),'ir');
-           allIR(i, :, :) = ir;
-           irIndices(i) = str2double(extractBetween(fileList(i).name,'ir_','.mat'));
+           allIR(idx, :, :) = ir;
+           irIndices(idx) = str2double(extractBetween(fileList(i).name,'ir_','.mat'));
+           idx = idx + 1;
        end
     end
 
