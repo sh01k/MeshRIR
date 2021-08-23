@@ -171,7 +171,7 @@ def plotWave(x, y, ir, tIdx=None):
     xx, yy = np.meshgrid(x, y)
     fig, ax = plt.subplots()
     ax = plt.axes()
-    color = plt.pcolor(xx, yy, ir[:, :, tIdx], cmap='RdBu', shading='auto')
+    color = plt.pcolormesh(xx, yy, ir[:, :, tIdx].T, cmap='RdBu', shading='auto')
     ax.set_aspect('equal')
     cbar = plt.colorbar(color)
     cbar.set_label('Amplitude')
@@ -195,7 +195,7 @@ def plotWaveFronts(x, ir, samplerate, xy='x'):
     xx, yy = np.meshgrid(t, x)
     fig, ax = plt.subplots()
     ax = plt.axes()
-    color = plt.pcolor(xx, yy, ir_plt, cmap='RdBu', shading='auto')
+    color = plt.pcolormesh(xx, yy, ir_plt, cmap='RdBu', shading='auto')
     cbar = plt.colorbar(color)
     cbar.set_label('Amplitude')
     plt.xlabel('Time (s)')
@@ -243,7 +243,7 @@ def movWave(sessionPath, x, y, ir, samplerate, start=None, end=None, downSamplin
     plt.rcParams["font.size"] = 14
 
     fig, ax = plt.subplots(figsize=(8, 6))
-    cax = ax.imshow(ir[..., start], vmin=-maxVal, vmax=maxVal, cmap='RdBu', origin='lower', interpolation='none')
+    cax = ax.imshow(ir[..., start].T, vmin=-maxVal, vmax=maxVal, cmap='RdBu', origin='lower', interpolation='none')
     cbar = fig.colorbar(cax)
     ax.set_xticks(np.arange(0, x.shape[0], 4))
     ax.set_xticklabels(x[0::4])
@@ -253,7 +253,7 @@ def movWave(sessionPath, x, y, ir, samplerate, start=None, end=None, downSamplin
     ax.set_ylabel("y (m)")
 
     def animate(i):
-        cax.set_array(ir[..., start+i])
+        cax.set_array(ir[..., start+i].T)
         currentTime = (i+start) / samplerate
         ax.set_title("Sample: "+ str(i)+ ", Time: "+ "{:.3f}".format(currentTime), fontsize = 14)
         return cax,
