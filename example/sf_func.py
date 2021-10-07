@@ -301,11 +301,11 @@ def kiFilterGenDir(k, posMic, posEst, angSrc, betaSrc, filterLen=None, smplShift
 
     k = k[:, None, None]
     rDiffMat = (np.tile(posMic[:, None, :], (1, numMic, 1)) - np.tile(posMic[None, :, :], (numMic, 1, 1)))[None, :, :, :]
-    distMat = np.sqrt((1j*betaSrc*np.sin(thetaSrc)*np.cos(phiSrc) - k*rDiffMat[:, :, :, 0])**2 + (1j*betaSrc*np.sin(thetaSrc)*np.sin(angSrc) - k*rDiffMat[:, :, :, 1])**2 + (1j*betaSrc*np.cos(thetaSrc) - k*rDiffMat[:, :, :, 2])**2)
+    distMat = np.sqrt((1j*betaSrc*np.sin(thetaSrc)*np.cos(phiSrc) - k*rDiffMat[:, :, :, 0])**2 + (1j*betaSrc*np.sin(thetaSrc)*np.sin(phiSrc) - k*rDiffMat[:, :, :, 1])**2 + (1j*betaSrc*np.cos(thetaSrc) - k*rDiffMat[:, :, :, 2])**2)
     K = special.spherical_jn(0, distMat)
     Kinv = np.linalg.inv(K + reg * np.eye(numMic)[None, :, :])
     rDiffVec = (np.tile(posEst[None, :, :], (numMic, 1, 1)) - np.tile(posMic[:, None, :], (1, numEst, 1)))[None, :, :, :]
-    distVec = np.sqrt((1j*betaSrc*np.cos(angSrc) - k*rDiffVec[:, :, :, 0])**2 + (1j*betaSrc*np.sin(angSrc) - k*rDiffVec[:, :, :, 1])**2)
+    distVec= np.sqrt((1j*betaSrc*np.sin(thetaSrc)*np.cos(phiSrc) - k*rDiffVec[:, :, :, 0])**2 + (1j*betaSrc*np.sin(thetaSrc)*np.sin(phiSrc) - k*rDiffVec[:, :, :, 1])**2 + (1j*betaSrc*np.cos(thetaSrc) - k*rDiffVec[:, :, :, 2])**2)
     kappa = special.spherical_jn(0, distVec)
     kiTF = np.transpose(kappa, (0, 2, 1)) @ Kinv
     kiTF = np.concatenate((np.zeros((1, numEst, numMic)), kiTF, kiTF[int(fftlen/2)-2::-1, :, :].conj()))
