@@ -138,6 +138,19 @@ addpath('matfiles');
 [posMic, posSrc, ir] = loadIR(path_to_data_folder);
 ~~~
 
+### Basic usage examples (Julia)
+
+- Import [irutils.jl](https://github.com/sh01k/MeshRIR/blob/main/irutils.jl)
+~~~julia
+include("lib/utils.jl")
+import .utils
+~~~
+
+- Load microphone and source positions, and IR data
+~~~julia
+posAll, posSrc, irAll = irutils.loadIR(path_to_data_folder)
+~~~
+
 ### Application examples
 - Sound field reconstruction: [examples/sf_reconst.ipynb](https://github.com/sh01k/MeshRIR/blob/main/example/sf_reconst.ipynb)
     - Estimation of pressure distribution using the method proposed in [2].
