@@ -3,5 +3,8 @@ title: MeshRIR
 description: Dataset of room impulse responses on meshed grid points
 show_downloads: false
 plugins:
+  - jekyll-seo-tag
   - jekyll-sitemap
-google_analytics: G-KELVZ3CYPD
+google_analytics: UA-195132499-1
+logo: img/logo.png
+lang: en
