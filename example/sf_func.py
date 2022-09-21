@@ -576,7 +576,6 @@ if __name__ == "__main__":
     xx, yy = np.meshgrid(posEvalX, posEvalY)
 
     fig, ax = plt.subplots()
-    ax = plt.axes()
     color = plt.pcolor(xx, yy, sigEvalLp_XY[tIdx,:,:], cmap='RdBu', shading='auto', vmin=-0.2, vmax=0.2)
     ax.set_aspect('equal')
     cbar=plt.colorbar(color)
@@ -585,7 +584,6 @@ if __name__ == "__main__":
     plt.ylabel('y (m)')
 
     fig, ax = plt.subplots()
-    ax = plt.axes()
     color = plt.pcolor(xx, yy, sigEstLp_XY[tIdx,:,:], cmap='RdBu', shading='auto', vmin=-0.2, vmax=0.2)
     ax.set_aspect('equal')
     cbar=plt.colorbar(color)
