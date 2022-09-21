@@ -2,3 +2,11 @@ _site/
 Gemfile
 Gemfile.lock
 .DS_Store
+__pycache__/
+ravel2/
+S1-M3969_mat/
+S1-M3969_npy/
+S32-M441_mat/
+S32-M441_npy/
+coefEstOp_o12_m36_f8192.npy
+WeightMode_o12_xyplane_f8192.npy

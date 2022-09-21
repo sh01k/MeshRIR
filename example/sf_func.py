@@ -204,7 +204,7 @@ def sphericalwave_mode(order, amp, x_s, y_s, z_s, x, y, z, k):
     return coef
 
 
-def coefEstOprGen(posEst, orderEst, posMic, orderMic, coefMic, k):
+def coefEstOprGen(posEst, orderEst, posMic, orderMic, coefMic, k, reg=1e-3):
     """Generate operator to estimate expansion coefficients of spherical wavefunctions from measurement vectors
     - N. Ueno, S. Koyama, and H. Saruwatari, “Sound Field Recording Using Distributed Microphones Based on 
       Harmonic Analysis of Infinite Order,” IEEE SPL, DOI: 10.1109/LSP.2017.2775242, 2018.
@@ -222,7 +222,6 @@ def coefEstOprGen(posEst, orderEst, posMic, orderMic, coefMic, k):
     Operator for estimation
     (Expansion coefficeints are estimated by multiplying with measurement vectors)
     """
-    reg = 1e-3
     numMic = posMic.shape[0]
     if np.isscalar(k):
         numFreq = 1
@@ -242,13 +241,15 @@ def coefEstOprGen(posEst, orderEst, posMic, orderMic, coefMic, k):
                 T = trjmat3d(orderMic, orderMic, posMic[i, 0]-posMic[j, 0], posMic[i, 1]-posMic[j, 1], posMic[i, 2]-posMic[j, 2], k[ff])
                 Psi[ff, i, j] = coefMic[:, i].conj().T @ T @ coefMic[:, j]
                 Psi[ff, j, i] = Psi[ff, i, j].conj()
-    Psi_inv = np.linalg.inv(Psi + reg * np.eye(numMic, numMic)[None, :, :])
+    eigPsi, _ = np.linalg.eig(Psi)
+    regPsi =  eigPsi[:,0] * reg
+    Psi_inv = np.linalg.inv(Psi + regPsi[:,None,None] * np.eye(numMic, numMic)[None, :, :])
     coefEstOpr = Xi @ Psi_inv
 
     return coefEstOpr
 
 
-def kiFilterGen(k, posMic, posEst, filterLen=None, smplShift=None):
+def kiFilterGen(k, posMic, posEst, filterLen=None, smplShift=None, reg=1e-3):
     """Kernel interpolation filter for estimating pressure distribution from measurements
     - N. Ueno, S. Koyama, and H. Saruwatari, “Kernel Ridge Regression With Constraint of Helmholtz Equation 
       for Sound Field Interpolation,” Proc. IWAENC, DOI: 10.1109/IWAENC.2018.8521334, 2018.
@@ -259,7 +260,6 @@ def kiFilterGen(k, posMic, posEst, filterLen=None, smplShift=None):
     numEst = posEst.shape[0]
     numFreq = k.shape[0]
     fftlen = numFreq*2
-    reg = 1e-1
 
     if filterLen is None:
         filterLen = numFreq+1
@@ -269,7 +269,9 @@ def kiFilterGen(k, posMic, posEst, filterLen=None, smplShift=None):
     k = k[:, None, None]
     distMat = distfuncs.cdist(posMic, posMic)[None, :, :]
     K = special.spherical_jn(0, k * distMat)
-    Kinv = np.linalg.inv(K + reg * np.eye(numMic)[None, :, :])
+    eigK, _ = np.linalg.eig(K)
+    regK =  eigK[:,0] * reg
+    Kinv = np.linalg.inv(K + regK[:,None,None] * np.eye(numMic)[None, :, :])
     distVec = np.transpose(distfuncs.cdist(posEst, posMic), (1, 0))[None, :, :]
     kappa = special.spherical_jn(0, k * distVec)
     kiTF = np.transpose(kappa, (0, 2, 1)) @ Kinv
@@ -280,7 +282,7 @@ def kiFilterGen(k, posMic, posEst, filterLen=None, smplShift=None):
     return kiFilter
 
 
-def kiFilterGenDir(k, posMic, posEst, angSrc, betaSrc, filterLen=None, smplShift=None):
+def kiFilterGenDir(k, posMic, posEst, angSrc, betaSrc, filterLen=None, smplShift=None, reg=1e-3):
     """Kernel interpolation filter with directional weighting for estimating pressure distribution from measurements
     - N. Ueno, S. Koyama, and H. Saruwatari, “Directionally Weighted Wave Field Estimation Exploiting Prior 
       Information on Source Direction,” IEEE Trans. SP, DOI: 10.1109/TSP.2021.3070228, 2021.
@@ -289,7 +291,6 @@ def kiFilterGenDir(k, posMic, posEst, angSrc, betaSrc, filterLen=None, smplShift
     numEst = posEst.shape[0]
     numFreq = k.shape[0]
     fftlen = numFreq*2
-    reg = 1e-1
 
     if filterLen is None:
         filterLen = numFreq+1
@@ -331,16 +332,6 @@ def mcBlockRect(rectDims, rng=None):
     return pointGenerator, totVol
 
 
-def wightBasis(k, n, m):
-    """Integrand for weighted mode-matching
-    """
-    def integralFunc(r):
-        funcVal = sf_int_basis3d(n[None,None,:,:], m[None,None,:,:], r[:,0,None,None,None], r[:,1,None,None,None], 0., k[None,:,None,None]) @ np.transpose( sf_int_basis3d(n[None,None,:,:], m[None,None,:,:], r[:,0,None,None,None], r[:,1,None,None,None], 0., k[None,:,None,None]).conj(), (0, 1, 3, 2))
-        funcVal = np.transpose(funcVal, (1,2,3,0))
-        return funcVal
-    return integralFunc
-
-
 def mcIntegrate(func, pointGenerator, totNumSamples, totalVolume, numPerIter=20):
     """Monte-Carlo integration
     """
@@ -369,6 +360,16 @@ def mcIntegrate(func, pointGenerator, totNumSamples, totalVolume, numPerIter=20)
     return integralVal
 
 
+def weightBasis(k, n, m):
+    """Integrand for weighted mode-matching
+    """
+    def integralFunc(r):
+        funcVal = sf_int_basis3d(n[None,None,:,:], m[None,None,:,:], r[:,0,None,None,None], r[:,1,None,None,None], 0., k[None,:,None,None]) @ np.transpose( sf_int_basis3d(n[None,None,:,:], m[None,None,:,:], r[:,0,None,None,None], r[:,1,None,None,None], 0., k[None,:,None,None]).conj(), (0, 1, 3, 2))
+        funcVal = np.transpose(funcVal, (1,2,3,0))
+        return funcVal
+    return integralFunc
+
+
 def weightWMM(k, order, mcNumPoints, dimsEval):
     """Weighting matrix of weighted mode-matching method for sound field synthesis
     - N. Ueno, S. Koyama, and H. Saruwatari, “Three-Dimensional Sound Field Reproduction Based on 
@@ -376,8 +377,59 @@ def weightWMM(k, order, mcNumPoints, dimsEval):
     """
     n, m = sph_harm_nmvec(order, 1)
     mcPointGen, mcVolume = mcBlockRect([dimsEval[0], dimsEval[1]], np.random.RandomState(2))
-    func = wightBasis(k, n, m)
+    func = weightBasis(k, n, m)
     W = mcIntegrate(func, mcPointGen, mcNumPoints, mcVolume)
+    return W
+
+
+def weightKernel(k, posMic):
+    """Integrand for weighted pressure matching
+    """
+    def integralFunc(r):
+        distance = np.transpose(distfuncs.cdist(r, posMic[:,0:2]), (1, 0))[None,:,:]
+        kappa = special.spherical_jn(0, k[:,None,None] * distance) 
+        funcVal = kappa[:, :, None, :].conj() * kappa[:, None, :, :]
+        return funcVal
+    return integralFunc
+
+
+def weightKernelDir(k, posMic, beta1=0, ang1=(np.pi/2,0), beta2=0, ang2=(np.pi/2,0)):
+    """Integrand for weighted pressure matching with directional weighting
+    """
+    theta1 = ang1[0]
+    phi1 = ang1[1]
+    theta2 = ang2[0]
+    phi2 = ang2[1]
+    def integralFunc(r):
+        r_diff = (np.tile(r[None,:,:], (posMic.shape[0],1,1)) - np.tile(posMic[:,None,:], (1,r.shape[0],1)))[None,:,:,:]
+        distance1 = np.sqrt((1j*beta1*np.sin(theta1)*np.cos(phi1) - k[:,None,None]*r_diff[:,:,:,0])**2 + (1j*beta1*np.sin(theta1)*np.sin(phi1) - k[:,None,None]*r_diff[:,:,:,1])**2 + (1j*beta1*np.cos(theta1) - k[:,None,None]*r_diff[:,:,:,1])**2)
+        distance2 = np.sqrt((1j*beta2*np.sin(theta2)*np.cos(phi2) - k[:,None,None]*r_diff[:,:,:,0])**2 + (1j*beta2*np.sin(theta2)*np.sin(phi2) - k[:,None,None]*r_diff[:,:,:,1])**2 + (1j*beta2*np.cos(theta2) - k[:,None,None]*r_diff[:,:,:,1])**2)
+        kappa1 = special.spherical_jn(0, distance1)
+        kappa2 = special.spherical_jn(0, distance2)
+        funcVal = kappa1[:, :, None, :].conj() * kappa2[:, None, :, :]
+        return funcVal
+    return integralFunc
+
+
+def weightWPM(k, posMic, mcNumPoints, dimsEval, reg=1e-3):
+    """Weighting matrix of weighted pressure-matching method for sound field synthesis
+    - S. Koyama and K. Arikawa, "Weighted Pressure Matching Based on Kernel Interpolation 
+      for Sound Field Reproduction," Proc. ICA, 2022.
+    - S. Koyama, K. Kimura, and K. Arikawa, "Weighted Pressure and Mode Matching for Sound 
+      Field Reproduction: Theoretical and Experimental Comparisons," J. AES, 2022.
+    """
+    mcPointGen, mcVolume = mcBlockRect([dimsEval[0], dimsEval[1]], np.random.RandomState(2))
+    func = weightKernel(k, posMic)
+    integralVal = mcIntegrate(func, mcPointGen, mcNumPoints, mcVolume)
+    numMic = posMic.shape[0]
+
+    distMat = distfuncs.cdist(posMic, posMic)[None, :, :]
+    K = special.spherical_jn(0, k[:,None,None] * distMat)
+
+    eigK, _ = np.linalg.eig(K)
+    regK =  eigK[:,0] * reg
+    K_inv = np.linalg.inv(K + regK[:,None,None] * np.eye(numMic)[None,:,:])
+    W = np.transpose(K_inv.conj(), (0,2,1)) @ integralVal @ K_inv
     return W
 
 

@@ -158,14 +158,15 @@ posAll, posSrc, irAll = irutils.loadIR(path_to_data_folder)
 
 - Sound field control: [examples/sf_control.ipynb](https://github.com/sh01k/MeshRIR/blob/main/example/sf_control.ipynb)
     - Synthesis of planewave field by pressure matching.
-    - Weighted mode-matching [4] is also demonstrated. Details can be found in [5].
+    - Weighted pressure and mode matching [4,5] are also demonstrated. Details can be found in [6].
 
 # References
 1. [S. Koyama, T. Nishida, K. Kimura, T. Abe, N. Ueno, and J. Brunnström, "MeshRIR: A dataset of room impulse responses on meshed grid points for evaluating sound field analysis and synthesis methods," in Proc. IEEE WASPAA, 2021.](https://arxiv.org/abs/2106.10801)
 1. [N. Ueno, S. Koyama, and H. Saruwatari, “Sound field recording using distributed microphones based on harmonic analysis of infinite order,” IEEE SPL, 2018.](https://doi.org/10.1109/LSP.2017.2775242)
-1. [T. Nishida, N. Ueno, S. Koyama, and H. Saruwatari, “Sensor placement in arbitrarily restricted region for field estimation based on Gaussian process,” in Proc. EUSIPCO, 2020.](https://doi.org/10.23919/Eusipco47968.2020.9287222)
+1. [T. Nishida, N. Ueno, S. Koyama, and H. Saruwatari, “Region-restricted Sensor Placement Based on Gaussian Process for Sound Field Estimation,” IEEE Trans. SP, 2022.](https://doi.org/10.1109/TSP.2022.3156012)
+1. S. Koyama and K. Arikawa, "Weighted pressure matching based on kernel interpolation for sound field reproduction," Proc. ICA, 2022. (to appear)
 1. [N. Ueno, S. Koyama, and H. Saruwatari, “Three-dimensional sound field reproduction based on weighted mode-matching method,” IEEE/ACM Trans. ASLP, 2019.](https://doi.org/10.1109/TASLP.2019.2934834)
-1. [S. Koyama, K. Kimura, and N. Ueno, "Sound field reproduction with weighted mode matching and infinite-dimensional harmonic analysis: An experimental evaluation," I3DA, 2021.](https://arxiv.org/abs/2111.11045)
+1. S. Koyama, K. Kimura, and N. Ueno, "Weighted pressure and mode matching for sound field reproduction: Theoretical and experimental comparisons," J. AES, 2022. (in press)
 
 # Author
 - [Shoichi Koyama](https://www.sh01.org) (The University of Tokyo, Tokyo, Japan)
