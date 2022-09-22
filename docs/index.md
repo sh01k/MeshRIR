@@ -12,6 +12,9 @@ The dataset is available in the following link:
 Extract the data files in the folder "src". For processing the IR data, see "ir_view.html" (converted from .ipynb) for Python or "ir_view.m" for Matlab. Example codes for sound field analysis and synthesis are included in the folder "example". Latest codes are available here: 
 - [https://github.com/sh01k/MeshRIR](https://github.com/sh01k/MeshRIR)
 
+You can also try on Google Colab: 
+- <a href="https://colab.research.google.com/github/sh01k/MeshRIR/blob/main/ir_view_colab.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+
 If you use the MeshRIR dataset for your research, please cite the following paper ([preprint](https://arxiv.org/abs/2106.10801)):
 ~~~
 @inproceedings{MeshRIR,
@@ -161,11 +164,11 @@ posAll, posSrc, irAll = irutils.loadIR(path_to_data_folder)
     - Weighted pressure and mode matching [4,5] are also demonstrated. Details can be found in [6].
 
 # References
-1. [S. Koyama, T. Nishida, K. Kimura, T. Abe, N. Ueno, and J. Brunnström, "MeshRIR: A dataset of room impulse responses on meshed grid points for evaluating sound field analysis and synthesis methods," in Proc. IEEE WASPAA, 2021.](https://arxiv.org/abs/2106.10801)
-1. [N. Ueno, S. Koyama, and H. Saruwatari, “Sound field recording using distributed microphones based on harmonic analysis of infinite order,” IEEE SPL, 2018.](https://doi.org/10.1109/LSP.2017.2775242)
-1. [T. Nishida, N. Ueno, S. Koyama, and H. Saruwatari, “Region-restricted Sensor Placement Based on Gaussian Process for Sound Field Estimation,” IEEE Trans. SP, 2022.](https://doi.org/10.1109/TSP.2022.3156012)
+1. S. Koyama, T. Nishida, K. Kimura, T. Abe, N. Ueno, and J. Brunnström, "MeshRIR: A dataset of room impulse responses on meshed grid points for evaluating sound field analysis and synthesis methods," in Proc. IEEE WASPAA, 2021. [[pdf]](https://arxiv.org/abs/2106.10801)
+1. N. Ueno, S. Koyama, and H. Saruwatari, “Sound field recording using distributed microphones based on harmonic analysis of infinite order,” IEEE SPL, 2018. [[pdf]](https://doi.org/10.1109/LSP.2017.2775242)
+1. T. Nishida, N. Ueno, S. Koyama, and H. Saruwatari, “Region-restricted Sensor Placement Based on Gaussian Process for Sound Field Estimation,” IEEE Trans. SP, 2022. [[pdf]](https://doi.org/10.1109/TSP.2022.3156012)
 1. S. Koyama and K. Arikawa, "Weighted pressure matching based on kernel interpolation for sound field reproduction," Proc. ICA, 2022. (to appear)
-1. [N. Ueno, S. Koyama, and H. Saruwatari, “Three-dimensional sound field reproduction based on weighted mode-matching method,” IEEE/ACM Trans. ASLP, 2019.](https://doi.org/10.1109/TASLP.2019.2934834)
+1. N. Ueno, S. Koyama, and H. Saruwatari, “Three-dimensional sound field reproduction based on weighted mode-matching method,” IEEE/ACM Trans. ASLP, 2019. [[pdf]](https://doi.org/10.1109/TASLP.2019.2934834)
 1. S. Koyama, K. Kimura, and N. Ueno, "Weighted pressure and mode matching for sound field reproduction: Theoretical and experimental comparisons," J. AES, 2022. (in press)
 
 # Author
