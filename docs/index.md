@@ -13,7 +13,7 @@ Extract the data files in the folder "src". For processing the IR data, see "ir_
 - [https://github.com/sh01k/MeshRIR](https://github.com/sh01k/MeshRIR)
 
 You can also try on Google Colab: 
-- <a href="https://colab.research.google.com/github/sh01k/MeshRIR/blob/main/ir_view_colab.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+<a href="https://colab.research.google.com/github/sh01k/MeshRIR/blob/main/ir_view_colab.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
 If you use the MeshRIR dataset for your research, please cite the following paper ([preprint](https://arxiv.org/abs/2106.10801)):
 ~~~
