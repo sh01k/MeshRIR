@@ -169,7 +169,7 @@ posAll, posSrc, irAll = irutils.loadIR(path_to_data_folder)
 1. T. Nishida, N. Ueno, S. Koyama, and H. Saruwatari, “Region-restricted Sensor Placement Based on Gaussian Process for Sound Field Estimation,” IEEE Trans. SP, 2022. [[pdf]](https://doi.org/10.1109/TSP.2022.3156012)
 1. S. Koyama and K. Arikawa, "Weighted pressure matching based on kernel interpolation for sound field reproduction," Proc. ICA, 2022. (to appear)
 1. N. Ueno, S. Koyama, and H. Saruwatari, “Three-dimensional sound field reproduction based on weighted mode-matching method,” IEEE/ACM Trans. ASLP, 2019. [[pdf]](https://doi.org/10.1109/TASLP.2019.2934834)
-1. S. Koyama, K. Kimura, and N. Ueno, "Weighted pressure and mode matching for sound field reproduction: Theoretical and experimental comparisons," J. AES, 2022. (in press)
+1. S. Koyama, K. Kimura, and N. Ueno, "Weighted pressure and mode matching for sound field reproduction: Theoretical and experimental comparisons," J. AES, 2022. (in press) [[pdf]](https://arxiv.org/abs/2303.13027)
 
 # Author
 - [Shoichi Koyama](https://www.sh01.org) (The University of Tokyo, Tokyo, Japan)
