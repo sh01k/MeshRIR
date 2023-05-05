@@ -5,6 +5,6 @@ show_downloads: false
 plugins:
   - jekyll-seo-tag
   - jekyll-sitemap
-google_analytics: UA-195132499-1
+google_analytics: G-QK7GTK0C8N
 logo: img/logo.png
 lang: en
