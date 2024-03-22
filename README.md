@@ -8,7 +8,7 @@ See the link below for the details.
 
 ## Download
 The dataset is available in the following link:
-- https://doi.org/10.5281/zenodo.10852693
+- https://zenodo.org/doi/10.5281/zenodo.5002817
 
 Extract the data files in the folder "src". For processing the IR data, see "ir_view.html" (converted from .ipynb) for Python or "ir_view.m" for Matlab. Example codes for sound field analysis and synthesis are included in the folder "example". Latest codes are available here:
 - https://github.com/sh01k/MeshRIR
