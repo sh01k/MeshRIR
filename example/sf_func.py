@@ -3,6 +3,22 @@ import scipy.special as special
 import scipy.spatial.distance as distfuncs
 
 
+def cart2pol(x, y):
+    """Conversion from Cartesian to polar coordinates
+
+    Parameters
+    ------
+    x, y: Position in Cartesian coordinates
+
+    Returns
+    ------
+    phi, theta, r: Azimuth angle, zenith angle, distance
+    """
+    r = np.sqrt(x**2 + y**2)
+    phi = np.arctan2(y, x)
+    return phi, r
+
+
 def cart2sph(x, y, z):
     """Conversion from Cartesian to spherical coordinates
 
@@ -19,6 +35,22 @@ def cart2sph(x, y, z):
     theta = np.arctan2(r_xy, z)
     r = np.sqrt(x**2 + y**2 + z**2)
     return phi, theta, r
+
+
+def pol2cart(phi, r):
+    """Conversion from polar to Cartesian coordinates
+
+    Parameters
+    ------
+    phi, r: Azimuth angle, distance
+
+    Returns
+    ------
+    x, y : Position in Cartesian coordinates
+    """
+    x = r * np.cos(phi)
+    y = r * np.sin(phi)
+    return x, y
 
 
 def sph2cart(phi, theta, r):
@@ -107,6 +139,26 @@ def sf_int_basis3d(n, m, x, y, z, k):
     return f
 
 
+def sf_int_basis2d(m, x, y, k):
+    """Cylindrical wavefunction for interior sound field in 2D
+    
+    Parameters
+    ------
+    m: orders
+    x, y: Position in Cartesian coordinates
+    k: Wavenumber
+
+    Returns
+    ------
+    J_n(kr) exp(j m phi)
+    """
+    phi, r = cart2pol(x, y)
+    J = special.jn(m, k * r)
+    Y = np.exp(1j * m * phi)
+    f = J * Y
+    return f
+
+
 def gauntcoef(l1, m1, l2, m2, l3):
     """Gaunt coefficients
     """
@@ -157,8 +209,8 @@ def trjmat3d(order1, order2, x, y, z, k):
                         T[irow, icol] = np.sqrt(4.*np.pi) * 1j**(nu-n) * (-1.)**m * np.sum( 1j**(l) * P[l**2 + l - (mu-m)] * G )
                         irow = irow + 1
                 icol = icol+1
-        return T
-
+        return T    
+    
 
 def planewave(amp, phi, theta, x, y, z, k):
     """Planewave
@@ -175,6 +227,16 @@ def planewave_mode(order, amp, phi, theta, x, y, z, k):
     A = amp * np.exp(-1j * (kx*x + ky*y + kz*z))
     n, m = sph_harm_nmvec(order, 1)
     coef = A * np.sqrt(4 * np.pi) * (-1j)**n * sph_harm(m, n, phi, theta).conj()
+    return coef
+
+
+def planewave_mode2d(order, amp, phi, x, y, k):
+    """Expansion coefficients of planewave by cylindrical wavefunctions
+    """
+    kx, ky = pol2cart(phi, k)
+    A = amp * np.exp(-1j * (kx*x + ky*y))
+    m = np.arange(-order, order+1)
+    coef = A * (-1j)**m * np.exp(1j * m * phi)
     return coef
 
 
@@ -200,7 +262,31 @@ def sphericalwave_mode(order, amp, x_s, y_s, z_s, x, y, z, k):
         phi_s = np.tile(phi_s, (numOrd, 1))
         theta_s = np.tile(theta_s, (numOrd, 1))
         r_s = np.tile(r_s, (numOrd, 1))
-    coef = - amp * 1j * k / np.sqrt(4 * np.pi) * spherical_hn(n, 2, k*r_s) * sph_harm(m, n, phi_s, theta_s).conj()
+    coef = amp * (-1j * k / np.sqrt(4 * np.pi)) * spherical_hn(n, 2, k*r_s) * sph_harm(m, n, phi_s, theta_s).conj()
+    return coef
+
+
+def cylindricalwave(amp, x_s, y_s, x, y, k):
+    """Line source (2D free-field Green's function)
+    """
+    r = np.sqrt((x-x_s)**2 + (y-y_s)**2)
+    p = amp * (-1j / 4) * special.hankel2(0, k * r)
+    return p
+
+
+def cylindricalwave_mode(order, amp, x_s, y_s, x, y, k):
+    """Expansion coefficients of line source by cylindrical wavefunctions
+    """
+    phi_s, r_s = cart2pol(x_s-x, y_s-y)
+    m = np.arange(-order, order+1)
+    if np.isscalar(phi_s) is False:
+        numPos = phi_s.shape[0]
+        numOrd = m.shape[0]
+        m = np.tile(m, (1,numPos))
+        amp = np.tile(amp.T, (numOrd, 1))
+        phi_s = np.tile(phi_s, (numOrd, 1))
+        r_s = np.tile(r_s, (numOrd, 1))
+    coef = amp * (-1j / 4) * special.hankel2(m, k*r_s) * np.exp(1j * m * phi_s)
     return coef
 
 
@@ -241,15 +327,14 @@ def coefEstOprGen(posEst, orderEst, posMic, orderMic, coefMic, k, reg=1e-3):
                 T = trjmat3d(orderMic, orderMic, posMic[i, 0]-posMic[j, 0], posMic[i, 1]-posMic[j, 1], posMic[i, 2]-posMic[j, 2], k[ff])
                 Psi[ff, i, j] = coefMic[:, i].conj().T @ T @ coefMic[:, j]
                 Psi[ff, j, i] = Psi[ff, i, j].conj()
-    eigPsi, _ = np.linalg.eig(Psi)
-    regPsi =  eigPsi[:,0] * reg
-    Psi_inv = np.linalg.inv(Psi + regPsi[:,None,None] * np.eye(numMic, numMic)[None, :, :])
+    regPsi = reg
+    Psi_inv = np.linalg.inv(Psi + regPsi[:,None,None] * np.eye(numMic)[None, :, :])
     coefEstOpr = Xi @ Psi_inv
 
     return coefEstOpr
 
 
-def kiFilterGen(k, posMic, posEst, filterLen=None, smplShift=None, reg=1e-3):
+def kiFilterGen(k, posMic, posEst, filterLen=None, smplShift=None):
     """Kernel interpolation filter for estimating pressure distribution from measurements
     - N. Ueno, S. Koyama, and H. Saruwatari, “Kernel Ridge Regression With Constraint of Helmholtz Equation 
       for Sound Field Interpolation,” Proc. IWAENC, DOI: 10.1109/IWAENC.2018.8521334, 2018.
@@ -260,6 +345,7 @@ def kiFilterGen(k, posMic, posEst, filterLen=None, smplShift=None, reg=1e-3):
     numEst = posEst.shape[0]
     numFreq = k.shape[0]
     fftlen = numFreq*2
+    reg = 1e-3
 
     if filterLen is None:
         filterLen = numFreq+1
@@ -269,9 +355,7 @@ def kiFilterGen(k, posMic, posEst, filterLen=None, smplShift=None, reg=1e-3):
     k = k[:, None, None]
     distMat = distfuncs.cdist(posMic, posMic)[None, :, :]
     K = special.spherical_jn(0, k * distMat)
-    eigK, _ = np.linalg.eig(K)
-    regK =  eigK[:,0] * reg
-    Kinv = np.linalg.inv(K + regK[:,None,None] * np.eye(numMic)[None, :, :])
+    Kinv = np.linalg.inv(K + reg * np.eye(numMic)[None, :, :])
     distVec = np.transpose(distfuncs.cdist(posEst, posMic), (1, 0))[None, :, :]
     kappa = special.spherical_jn(0, k * distVec)
     kiTF = np.transpose(kappa, (0, 2, 1)) @ Kinv
@@ -282,7 +366,7 @@ def kiFilterGen(k, posMic, posEst, filterLen=None, smplShift=None, reg=1e-3):
     return kiFilter
 
 
-def kiFilterGenDir(k, posMic, posEst, angSrc, betaSrc, filterLen=None, smplShift=None, reg=1e-3):
+def kiFilterGenDir(k, posMic, posEst, angSrc, betaSrc, filterLen=None, smplShift=None):
     """Kernel interpolation filter with directional weighting for estimating pressure distribution from measurements
     - N. Ueno, S. Koyama, and H. Saruwatari, “Directionally Weighted Wave Field Estimation Exploiting Prior 
       Information on Source Direction,” IEEE Trans. SP, DOI: 10.1109/TSP.2021.3070228, 2021.
@@ -291,6 +375,7 @@ def kiFilterGenDir(k, posMic, posEst, angSrc, betaSrc, filterLen=None, smplShift
     numEst = posEst.shape[0]
     numFreq = k.shape[0]
     fftlen = numFreq*2
+    reg = 1e-3
 
     if filterLen is None:
         filterLen = numFreq+1
@@ -306,8 +391,37 @@ def kiFilterGenDir(k, posMic, posEst, angSrc, betaSrc, filterLen=None, smplShift
     K = special.spherical_jn(0, distMat)
     Kinv = np.linalg.inv(K + reg * np.eye(numMic)[None, :, :])
     rDiffVec = (np.tile(posEst[None, :, :], (numMic, 1, 1)) - np.tile(posMic[:, None, :], (1, numEst, 1)))[None, :, :, :]
-    distVec= np.sqrt((1j*betaSrc*np.sin(thetaSrc)*np.cos(phiSrc) - k*rDiffVec[:, :, :, 0])**2 + (1j*betaSrc*np.sin(thetaSrc)*np.sin(phiSrc) - k*rDiffVec[:, :, :, 1])**2 + (1j*betaSrc*np.cos(thetaSrc) - k*rDiffVec[:, :, :, 2])**2)
+    distVec = np.sqrt((1j*betaSrc*np.sin(thetaSrc)*np.cos(phiSrc) - k*rDiffVec[:, :, :, 0])**2 + (1j*betaSrc*np.sin(thetaSrc)*np.sin(phiSrc) - k*rDiffVec[:, :, :, 1])**2 + (1j*betaSrc*np.cos(thetaSrc) - k*rDiffVec[:, :, :, 2])**2)
     kappa = special.spherical_jn(0, distVec)
+    kiTF = np.transpose(kappa, (0, 2, 1)) @ Kinv
+    kiTF = np.concatenate((np.zeros((1, numEst, numMic)), kiTF, kiTF[int(fftlen/2)-2::-1, :, :].conj()))
+    kiFilter = np.fft.ifft(kiTF, n=fftlen, axis=0).real
+    kiFilter = np.concatenate((kiFilter[fftlen-smplShift:fftlen, :, :], kiFilter[:filterLen-smplShift, :, :]))
+
+    return kiFilter
+
+
+def kiFilterGenGauss(k, posMic, posEst, filterLen=None, smplShift=None):
+    """Kernel interpolation filter using Gaussian kernel
+    """
+    numMic = posMic.shape[0]
+    numEst = posEst.shape[0]
+    numFreq = k.shape[0]
+    fftlen = numFreq*2
+    reg = 1e-3
+
+    if filterLen is None:
+        filterLen = numFreq+1
+    if smplShift is None:
+        smplShift = numFreq/2
+
+    k = k[:, None, None]
+    gamma = 0.2*k
+    distMat = distfuncs.cdist(posMic, posMic)[None, :, :]
+    K = np.exp(- (gamma**2) * (distMat**2) )
+    Kinv = np.linalg.inv(K + reg * np.eye(numMic)[None, :, :])
+    distVec = np.transpose(distfuncs.cdist(posEst, posMic), (1, 0))[None, :, :]
+    kappa = np.exp(- (gamma**2) * (distVec**2) )
     kiTF = np.transpose(kappa, (0, 2, 1)) @ Kinv
     kiTF = np.concatenate((np.zeros((1, numEst, numMic)), kiTF, kiTF[int(fftlen/2)-2::-1, :, :].conj()))
     kiFilter = np.fft.ifft(kiTF, n=fftlen, axis=0).real
@@ -332,6 +446,16 @@ def mcBlockRect(rectDims, rng=None):
     return pointGenerator, totVol
 
 
+def weightBasis(k, n, m):
+    """Integrand for weighted mode-matching
+    """
+    def integralFunc(r):
+        funcVal = sf_int_basis3d(n[None,None,:,:], m[None,None,:,:], r[:,0,None,None,None], r[:,1,None,None,None], 0., k[None,:,None,None]) @ np.transpose( sf_int_basis3d(n[None,None,:,:], m[None,None,:,:], r[:,0,None,None,None], r[:,1,None,None,None], 0., k[None,:,None,None]).conj(), (0, 1, 3, 2))
+        funcVal = np.transpose(funcVal, (1,2,3,0))
+        return funcVal
+    return integralFunc
+
+
 def mcIntegrate(func, pointGenerator, totNumSamples, totalVolume, numPerIter=20):
     """Monte-Carlo integration
     """
@@ -352,22 +476,12 @@ def mcIntegrate(func, pointGenerator, totNumSamples, totalVolume, numPerIter=20)
         fVals = func(points)
 
         newIntVal = (integralVal * i + np.mean(fVals, axis=-1)) / (i + 1)
-        print("Block ", i)
+        #print("Block ", i)
 
         integralVal = newIntVal
     integralVal *= totalVolume
     print("Finished!!")
     return integralVal
-
-
-def weightBasis(k, n, m):
-    """Integrand for weighted mode-matching
-    """
-    def integralFunc(r):
-        funcVal = sf_int_basis3d(n[None,None,:,:], m[None,None,:,:], r[:,0,None,None,None], r[:,1,None,None,None], 0., k[None,:,None,None]) @ np.transpose( sf_int_basis3d(n[None,None,:,:], m[None,None,:,:], r[:,0,None,None,None], r[:,1,None,None,None], 0., k[None,:,None,None]).conj(), (0, 1, 3, 2))
-        funcVal = np.transpose(funcVal, (1,2,3,0))
-        return funcVal
-    return integralFunc
 
 
 def weightWMM(k, order, mcNumPoints, dimsEval):
@@ -379,57 +493,6 @@ def weightWMM(k, order, mcNumPoints, dimsEval):
     mcPointGen, mcVolume = mcBlockRect([dimsEval[0], dimsEval[1]], np.random.RandomState(2))
     func = weightBasis(k, n, m)
     W = mcIntegrate(func, mcPointGen, mcNumPoints, mcVolume)
-    return W
-
-
-def weightKernel(k, posMic):
-    """Integrand for weighted pressure matching
-    """
-    def integralFunc(r):
-        distance = np.transpose(distfuncs.cdist(r, posMic[:,0:2]), (1, 0))[None,:,:]
-        kappa = special.spherical_jn(0, k[:,None,None] * distance) 
-        funcVal = kappa[:, :, None, :].conj() * kappa[:, None, :, :]
-        return funcVal
-    return integralFunc
-
-
-def weightKernelDir(k, posMic, beta1=0, ang1=(np.pi/2,0), beta2=0, ang2=(np.pi/2,0)):
-    """Integrand for weighted pressure matching with directional weighting
-    """
-    theta1 = ang1[0]
-    phi1 = ang1[1]
-    theta2 = ang2[0]
-    phi2 = ang2[1]
-    def integralFunc(r):
-        r_diff = (np.tile(r[None,:,:], (posMic.shape[0],1,1)) - np.tile(posMic[:,None,:], (1,r.shape[0],1)))[None,:,:,:]
-        distance1 = np.sqrt((1j*beta1*np.sin(theta1)*np.cos(phi1) - k[:,None,None]*r_diff[:,:,:,0])**2 + (1j*beta1*np.sin(theta1)*np.sin(phi1) - k[:,None,None]*r_diff[:,:,:,1])**2 + (1j*beta1*np.cos(theta1) - k[:,None,None]*r_diff[:,:,:,1])**2)
-        distance2 = np.sqrt((1j*beta2*np.sin(theta2)*np.cos(phi2) - k[:,None,None]*r_diff[:,:,:,0])**2 + (1j*beta2*np.sin(theta2)*np.sin(phi2) - k[:,None,None]*r_diff[:,:,:,1])**2 + (1j*beta2*np.cos(theta2) - k[:,None,None]*r_diff[:,:,:,1])**2)
-        kappa1 = special.spherical_jn(0, distance1)
-        kappa2 = special.spherical_jn(0, distance2)
-        funcVal = kappa1[:, :, None, :].conj() * kappa2[:, None, :, :]
-        return funcVal
-    return integralFunc
-
-
-def weightWPM(k, posMic, mcNumPoints, dimsEval, reg=1e-3):
-    """Weighting matrix of weighted pressure-matching method for sound field synthesis
-    - S. Koyama and K. Arikawa, "Weighted Pressure Matching Based on Kernel Interpolation 
-      for Sound Field Reproduction," Proc. ICA, 2022.
-    - S. Koyama, K. Kimura, and K. Arikawa, "Weighted Pressure and Mode Matching for Sound 
-      Field Reproduction: Theoretical and Experimental Comparisons," J. AES, 2022.
-    """
-    mcPointGen, mcVolume = mcBlockRect([dimsEval[0], dimsEval[1]], np.random.RandomState(2))
-    func = weightKernel(k, posMic)
-    integralVal = mcIntegrate(func, mcPointGen, mcNumPoints, mcVolume)
-    numMic = posMic.shape[0]
-
-    distMat = distfuncs.cdist(posMic, posMic)[None, :, :]
-    K = special.spherical_jn(0, k[:,None,None] * distMat)
-
-    eigK, _ = np.linalg.eig(K)
-    regK =  eigK[:,0] * reg
-    K_inv = np.linalg.inv(K + regK[:,None,None] * np.eye(numMic)[None,:,:])
-    W = np.transpose(K_inv.conj(), (0,2,1)) @ integralVal @ K_inv
     return W
 
 

@@ -170,7 +170,6 @@ def plotWave(x, y, ir, tIdx=None):
 
     xx, yy = np.meshgrid(x, y)
     fig, ax = plt.subplots()
-    ax = plt.axes()
     color = plt.pcolormesh(xx, yy, ir[:, :, tIdx].T, cmap='RdBu', shading='auto')
     ax.set_aspect('equal')
     cbar = plt.colorbar(color)
@@ -194,7 +193,6 @@ def plotWaveFronts(x, ir, samplerate, xy='x'):
 
     xx, yy = np.meshgrid(t, x)
     fig, ax = plt.subplots()
-    ax = plt.axes()
     color = plt.pcolormesh(xx, yy, ir_plt, cmap='RdBu', shading='auto')
     cbar = plt.colorbar(color)
     cbar.set_label('Amplitude')
@@ -239,6 +237,7 @@ def movWave(sessionPath, x, y, ir, samplerate, start=None, end=None, downSamplin
         samplerate = samplerate // downSampling
     
     maxVal = np.max(np.abs(ir))
+    #maxVal = 0.2
 
     plt.rcParams["font.size"] = 14
 
@@ -259,6 +258,7 @@ def movWave(sessionPath, x, y, ir, samplerate, start=None, end=None, downSamplin
         return cax,
         
     anim = animation.FuncAnimation(fig, animate, interval=15, frames=end-start-1, blit=True)
+    #anim = animation.FuncAnimation(fig, animate, interval=200, frames=end-start-1, blit=True)
 
     anim.save(sessionPath.joinpath("wave_mov.mp4"), writer='ffmpeg', fps=15, bitrate=1800)
 
