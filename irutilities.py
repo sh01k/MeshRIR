@@ -257,13 +257,15 @@ def movWave(sessionPath, x, y, ir, samplerate, start=None, end=None, downSamplin
         ax.set_title("Sample: "+ str(i)+ ", Time: "+ "{:.3f}".format(currentTime), fontsize = 14)
         return cax,
         
-    anim = animation.FuncAnimation(fig, animate, interval=15, frames=end-start-1, blit=True)
+    anim = animation.FuncAnimation(fig=fig, func=animate, interval=15, frames=end-start-1, blit=True)
     #anim = animation.FuncAnimation(fig, animate, interval=200, frames=end-start-1, blit=True)
 
-    anim.save(sessionPath.joinpath("wave_mov.mp4"), writer='ffmpeg', fps=15, bitrate=1800)
-
-    plt.draw()
     plt.show()
+
+    #anim.save(sessionPath.joinpath("wave_mov.mp4"), writer='ffmpeg', fps=15, bitrate=1800)
+    anim.save(sessionPath.joinpath("wave_mov.gif"), writer='imagemagick', fps=15, bitrate=1800)
+
+
 
 
 if __name__ == "__main__":

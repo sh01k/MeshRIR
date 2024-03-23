@@ -327,7 +327,8 @@ def coefEstOprGen(posEst, orderEst, posMic, orderMic, coefMic, k, reg=1e-3):
                 T = trjmat3d(orderMic, orderMic, posMic[i, 0]-posMic[j, 0], posMic[i, 1]-posMic[j, 1], posMic[i, 2]-posMic[j, 2], k[ff])
                 Psi[ff, i, j] = coefMic[:, i].conj().T @ T @ coefMic[:, j]
                 Psi[ff, j, i] = Psi[ff, i, j].conj()
-    regPsi = reg
+    eigPsi, _ = np.linalg.eig(Psi)
+    regPsi =  eigPsi[:,0] * reg
     Psi_inv = np.linalg.inv(Psi + regPsi[:,None,None] * np.eye(numMic)[None, :, :])
     coefEstOpr = Xi @ Psi_inv
 
@@ -493,6 +494,38 @@ def weightWMM(k, order, mcNumPoints, dimsEval):
     mcPointGen, mcVolume = mcBlockRect([dimsEval[0], dimsEval[1]], np.random.RandomState(2))
     func = weightBasis(k, n, m)
     W = mcIntegrate(func, mcPointGen, mcNumPoints, mcVolume)
+    return W
+
+
+def weightKernel(k, posMic):
+    """Integrand for weighted pressure matching
+    """
+    def integralFunc(r):
+        distance = np.transpose(distfuncs.cdist(r, posMic[:,0:2]), (1, 0))[None,:,:]
+        kappa = special.spherical_jn(0, k[:,None,None] * distance) 
+        funcVal = kappa[:, :, None, :].conj() * kappa[:, None, :, :]
+        return funcVal
+    return integralFunc
+
+
+def weightWPM(k, posMic, mcNumPoints, dimsEval, reg=1e-3):
+    """Weighting matrix of weighted pressure-matching method for sound field synthesis
+    - S. Koyama, K. Kimura, and N. Ueno, “Weighted Pressure and Mode Matching for Sound Field 
+      Reproduction: Theoretical and Experimental Comparisons,” J. AES, DOI: 10.17743/jaes.2022.0058, 2023.
+    """
+    mcPointGen, mcVolume = mcBlockRect([dimsEval[0], dimsEval[1]], np.random.RandomState(2))
+    func = weightKernel(k, posMic)
+    integralVal = mcIntegrate(func, mcPointGen, mcNumPoints, mcVolume)
+
+    # Uniform kernel
+    numMic = posMic.shape[0]
+    distMat = distfuncs.cdist(posMic, posMic)[None, :, :]
+    K = special.spherical_jn(0, k[:,None,None] * distMat)
+
+    eigK, _ = np.linalg.eig(K)
+    regKer =  eigK[:,0] * reg
+    K_inv = np.linalg.inv(K + regKer[:,None,None] * np.eye(numMic)[None,:,:])
+    W = np.transpose(K_inv.conj(), (0,2,1)) @ integralVal @ K_inv
     return W
 
 
