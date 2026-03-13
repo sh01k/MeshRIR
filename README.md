@@ -4,7 +4,7 @@
 MeshRIR is a dataset of acoustic room impulse responses (RIRs) at finely meshed grid points. Two subdatasets are currently available: one consists of IRs in a 3D cuboidal region from a single source, and the other consists of IRs in a 2D square region from an array of 32 sources. This dataset is suitable for evaluating sound field analysis and synthesis methods.
 
 See the link below for the details.
-- [https://sh01k.github.io/MeshRIR/](https://www.sh01.org/MeshRIR/)
+- [[https://sh01k.github.io/MeshRIR/](https://www.sh01.org/MeshRIR/)](https://www.sh01.org/MeshRIR/)
 
 ## Download
 The dataset is available in the following link:
